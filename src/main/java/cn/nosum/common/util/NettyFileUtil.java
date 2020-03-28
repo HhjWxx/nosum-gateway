@@ -14,21 +14,22 @@ public class NettyFileUtil {
     private static final Logger logger = LoggerFactory.getLogger(NettyFileUtil.class);
 
     private final static Integer BYTE_BUFFER_LENGTH=1024;
+    private final static String LINE_SEPARATOR= System.getProperty("line.separator");
 
     /**
      * 将内存中的数据写入到磁盘，如果路径不存在则创建
      * @param data 文件内容
      * @param filePath 文件保存路劲
+     * @param append 文件存在时是否追加内容
      */
-    public static void dataToFile(String data, String filePath) {
-        System.err.println(filePath);
+    public static void dataToFile(String data, String filePath,boolean append) {
         File file = new File(filePath);
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file,append);
              FileChannel fileChannel = fileOutputStream.getChannel()) {
-            ByteBuffer byteBuffer = ByteBuffer.allocate(BYTE_BUFFER_LENGTH);
+            ByteBuffer byteBuffer = ByteBuffer.allocate(BYTE_BUFFER_LENGTH+LINE_SEPARATOR.length());
             int i = 0;
             int length = data.getBytes().length;
             // 一次性读取完毕
@@ -45,6 +46,7 @@ public class NettyFileUtil {
                     fileChannel.write(byteBuffer);
                 }
             }
+            fileOutputStream.write(LINE_SEPARATOR.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }

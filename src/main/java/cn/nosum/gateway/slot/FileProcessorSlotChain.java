@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSON;
 public class FileProcessorSlotChain extends AbstractLinkedProcessorSlot<Context> {
     @Override
     public void exec(Context context) throws Throwable {
-        NettyFileUtil.dataToFile(JSON.toJSONString(context.getRequest().getParameters()),context.getRequest().getUrl());
+        NettyFileUtil.dataToFile(JSON.toJSONString(context.getRequest().getParameters()), context.getRequest().getUrl(), true);
         fireExec(context);
     }
 }
