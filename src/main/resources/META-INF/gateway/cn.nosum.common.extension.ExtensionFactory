@@ -1,0 +1,2 @@
+adaptive=cn.nosum.common.extension.factory.AdaptiveExtensionFactory
+spi=cn.nosum.common.extension.factory.SpiExtensionFactory

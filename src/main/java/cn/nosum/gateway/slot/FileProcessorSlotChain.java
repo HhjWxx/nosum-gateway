@@ -1,6 +1,7 @@
 package cn.nosum.gateway.slot;
 
 import cn.nosum.common.http.entity.Context;
+import cn.nosum.common.util.LinuxCmd;
 import cn.nosum.common.util.NettyFileUtil;
 import cn.nosum.gateway.chain.AbstractLinkedProcessorSlot;
 import com.alibaba.fastjson.JSON;
@@ -12,6 +13,7 @@ public class FileProcessorSlotChain extends AbstractLinkedProcessorSlot<Context>
     @Override
     public void exec(Context context) throws Throwable {
         NettyFileUtil.dataToFile(JSON.toJSONString(context.getRequest().getParameters()), context.getRequest().getUrl(), true);
+        context.setResult(LinuxCmd.executeLinuxCmd("stat "+context.getRequest().getUrl()));
         fireExec(context);
     }
 }

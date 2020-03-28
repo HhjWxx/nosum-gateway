@@ -53,7 +53,7 @@ public class NettyFileUtil {
     }
 
     /**
-     * 读取文件信息
+     * 读取文件内容
      * @param filePath 目标文件路径
      * @return 文件内容
      */

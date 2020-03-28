@@ -1,9 +1,7 @@
 package cn.nosum.gateway.handler;
 
 import cn.nosum.common.dto.ResultInfo;
-import cn.nosum.common.enums.ResultEnum;
 import cn.nosum.common.http.entity.Context;
-import cn.nosum.common.http.entity.Response;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -11,9 +9,8 @@ public class FinalProcessHandler extends SimpleChannelInboundHandler<Context> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Context context) throws Exception {
-        Response response = context.getResponse();
-        // 实际业务处理
-        response.write(ResultInfo.valueOf(ResultEnum.SUCCESS));
+        // TODO 这里直接使用了 stat 脚本返回值作为输出，实际处理应该更为复杂
+        context.getResponse().write(ResultInfo.valueOf(context.getResult()));
     }
 
     @Override

@@ -1,5 +1,7 @@
 package cn.nosum.gateway.container;
 
+import cn.nosum.common.annotation.Adaptive;
+import cn.nosum.gateway.container.spi.GateWayContainer;
 import cn.nosum.gateway.handler.FinalProcessHandler;
 import cn.nosum.gateway.handler.FullHttpRequestHandler;
 import cn.nosum.gateway.handler.PreProcessHandler;
@@ -12,16 +14,19 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
-//Netty就是一个同时支持多协议的网络通信框架
-public class NettyGatewayContainer {
+@Adaptive
+public class NettyGateWayContainer implements GateWayContainer {
+	Logger logger= LoggerFactory.getLogger(NettyGateWayContainer.class);
 	private int port = 8888;
 	public void start(){
 		// Boss线程
-		EventLoopGroup bossGroup = new NioEventLoopGroup(6);
+		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		// Worker线程
-		EventLoopGroup workerGroup = new NioEventLoopGroup(12);
+		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
 			ServerBootstrap server = new ServerBootstrap();
 			server.group(bossGroup, workerGroup)
@@ -48,7 +53,7 @@ public class NettyGatewayContainer {
 
 			// 启动服务器
 			ChannelFuture f = server.bind(port).sync();
-			System.out.println("已启动，监听的端口是：" + port);
+			logger.debug("NettyGateWayContainer启动成功,访问端口号是：{}",port);
 			f.channel().closeFuture().sync();
 		}catch (Exception e){
 			e.printStackTrace();

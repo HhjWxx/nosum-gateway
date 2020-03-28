@@ -1,9 +1,11 @@
 package cn.nosum;
 
-import cn.nosum.gateway.container.NettyGatewayContainer;
+import cn.nosum.common.extension.ExtensionLoader;
+import cn.nosum.gateway.container.spi.GateWayContainer;
 
 public class NoSumGateWayStart {
     public static void main(String[] args) {
-        new NettyGatewayContainer().start();
+        GateWayContainer container = ExtensionLoader.getExtensionLoader(GateWayContainer.class).getAdaptiveExtension();
+        container.start();
     }
 }
