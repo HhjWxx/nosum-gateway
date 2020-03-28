@@ -22,6 +22,7 @@ public class Request {
 
     private Map<String, String> paramMap;
 
+
     public Request(FullHttpRequest req) {
         this.req = req;
         initParam(req);
@@ -54,7 +55,7 @@ public class Request {
     }
 
     public String getUrl() {
-        return req.uri();
+        return this.req.uri().split("[?]")[0];
     }
 
     public String getMethod() {
@@ -68,4 +69,5 @@ public class Request {
     public String getParameter(String name) {
         return paramMap.get(name);
     }
+
 }
