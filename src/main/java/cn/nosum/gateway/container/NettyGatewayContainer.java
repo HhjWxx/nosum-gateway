@@ -1,12 +1,15 @@
-package cn.nosum.container;
+package cn.nosum.gateway.container;
 
-import cn.nosum.handler.GateWayHandler;
-import cn.nosum.handler.HttpRequestHandler;
+import cn.nosum.gateway.handler.FinalProcessHandler;
+import cn.nosum.gateway.handler.FullHttpRequestHandler;
+import cn.nosum.gateway.handler.PreProcessHandler;
+import cn.nosum.gateway.handler.SlotProcessHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
@@ -16,9 +19,9 @@ public class NettyGatewayContainer {
 	private int port = 8888;
 	public void start(){
 		// Boss线程
-		EventLoopGroup bossGroup = new NioEventLoopGroup();
+		EventLoopGroup bossGroup = new NioEventLoopGroup(6);
 		// Worker线程
-		EventLoopGroup workerGroup = new NioEventLoopGroup();
+		EventLoopGroup workerGroup = new NioEventLoopGroup(12);
 		try {
 			ServerBootstrap server = new ServerBootstrap();
 			server.group(bossGroup, workerGroup)
@@ -28,13 +31,14 @@ public class NettyGatewayContainer {
 						// 客户端初始化处理
 						protected void initChannel(SocketChannel client) throws Exception {
 							// Netty对HTTP协议的封装，顺序有要求
-							// HttpResponseEncoder 编码器
-							client.pipeline().addLast(new HttpResponseEncoder());
-							// HttpRequestDecoder 解码器
 							client.pipeline().addLast(new HttpRequestDecoder());
+							client.pipeline().addLast(new HttpObjectAggregator(65535));//将多个消息转化成一个
+							client.pipeline().addLast(new HttpResponseEncoder());
+							client.pipeline().addLast(new FullHttpRequestHandler());
 							// 业务逻辑处理
-							client.pipeline().addLast(new HttpRequestHandler());
-							client.pipeline().addLast(new GateWayHandler());
+							client.pipeline().addLast(new SlotProcessHandler());
+							client.pipeline().addLast(new PreProcessHandler());
+							client.pipeline().addLast(new FinalProcessHandler());
 						}
 					})
 					// 针对主线程的配置 分配线程最大数量 128
