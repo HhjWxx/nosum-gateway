@@ -7,6 +7,7 @@ import cn.nosum.gateway.handler.FinalProcessHandler;
 import cn.nosum.gateway.handler.FullHttpRequestHandler;
 import cn.nosum.gateway.handler.PreProcessHandler;
 import cn.nosum.gateway.handler.SlotProcessHandler;
+import cn.nosum.gateway.handler.build.HandlerProvider;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -33,20 +34,7 @@ public class NettyGateWayContainer implements GateWayContainer {
 			server.group(bossGroup, workerGroup)
 					.channel(NioServerSocketChannel.class)
 					// 子线程处理类 , Handler
-					.childHandler(new ChannelInitializer<SocketChannel>() {
-						// 客户端初始化处理
-						protected void initChannel(SocketChannel client) throws Exception {
-							// Netty对HTTP协议的封装，顺序有要求
-							client.pipeline().addLast(new HttpRequestDecoder());
-							client.pipeline().addLast(new HttpObjectAggregator(65535));//将多个消息转化成一个
-							client.pipeline().addLast(new HttpResponseEncoder());
-							client.pipeline().addLast(new FullHttpRequestHandler());
-							// 业务逻辑处理
-							client.pipeline().addLast(new SlotProcessHandler());
-							client.pipeline().addLast(new PreProcessHandler());
-							client.pipeline().addLast(new FinalProcessHandler());
-						}
-					})
+					.childHandler(HandlerProvider.newHandlerChannel())
 					// 针对主线程的配置 分配线程最大数量 128
 					.option(ChannelOption.SO_BACKLOG, 128)
 					// 针对子线程的配置 保持长连接

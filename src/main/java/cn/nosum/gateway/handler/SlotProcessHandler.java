@@ -5,7 +5,7 @@ import cn.nosum.common.enums.ResultEnum;
 import cn.nosum.common.exception.ExcludeException;
 import cn.nosum.common.http.entity.Context;
 import cn.nosum.gateway.slot.ProcessorSlot;
-import cn.nosum.gateway.slot.SlotChainProvider;
+import cn.nosum.gateway.slot.build.SlotChainProvider;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

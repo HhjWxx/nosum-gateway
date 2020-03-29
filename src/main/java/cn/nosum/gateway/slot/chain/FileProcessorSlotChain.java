@@ -1,4 +1,4 @@
-package cn.nosum.gateway.slot.impl;
+package cn.nosum.gateway.slot.chain;
 
 import cn.nosum.common.http.entity.Context;
 import cn.nosum.common.util.LinuxCmd;

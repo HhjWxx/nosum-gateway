@@ -3,9 +3,9 @@ package cn.nosum.gateway.slot.build;
 import cn.nosum.common.annotation.Adaptive;
 import cn.nosum.gateway.slot.DefaultProcessorSlotChain;
 import cn.nosum.gateway.slot.ProcessorSlotChain;
-import cn.nosum.gateway.slot.impl.FileProcessorSlotChain;
-import cn.nosum.gateway.slot.impl.LogProcessorSlotChain;
-import cn.nosum.gateway.slot.impl.UrlProcessorSlotChain;
+import cn.nosum.gateway.slot.chain.FileProcessorSlotChain;
+import cn.nosum.gateway.slot.chain.LogProcessorSlotChain;
+import cn.nosum.gateway.slot.chain.UrlProcessorSlotChain;
 
 @Adaptive
 public class DefaultSlotChainBuilder implements SlotChainBuilder {

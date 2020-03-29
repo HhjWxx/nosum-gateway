@@ -1,4 +1,4 @@
-package cn.nosum.gateway.slot.impl;
+package cn.nosum.gateway.slot.chain;
 
 import cn.nosum.common.exception.ExcludeException;
 import cn.nosum.gateway.slot.AbstractLinkedProcessorSlot;
