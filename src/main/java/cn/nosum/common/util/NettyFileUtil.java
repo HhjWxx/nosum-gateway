@@ -29,24 +29,24 @@ public class NettyFileUtil {
         }
         try (FileOutputStream fileOutputStream = new FileOutputStream(file,append);
              FileChannel fileChannel = fileOutputStream.getChannel()) {
-            ByteBuffer byteBuffer = ByteBuffer.allocate(getLength(data.length())+LINE_SEPARATOR.length());
             int i = 0;
-            int length = data.getBytes().length;
+            byte[] writeDate=data.getBytes();
+            int length = writeDate.length;
+            ByteBuffer byteBuffer = ByteBuffer.allocate(getLength(length));
             // 一次性读取完毕
-            if (BYTE_BUFFER_LENGTH > data.getBytes().length) {
-                byteBuffer.put(data.getBytes(), i, data.getBytes().length);
+            if (BYTE_BUFFER_LENGTH > length) {
+                byteBuffer.put(writeDate, i, length);
                 byteBuffer.flip();
                 fileChannel.write(byteBuffer);
             } else {
                 // 循环读取
-                for (int temp = 0; temp < data.getBytes().length; temp += BYTE_BUFFER_LENGTH) {
+                for (int temp = 0; temp < length; temp += BYTE_BUFFER_LENGTH) {
                     byteBuffer.clear();
-                    byteBuffer.put(data.getBytes(), temp, BYTE_BUFFER_LENGTH);
+                    byteBuffer.put(writeDate, temp, BYTE_BUFFER_LENGTH);
                     byteBuffer.flip();
                     fileChannel.write(byteBuffer);
                 }
             }
-            fileOutputStream.write(LINE_SEPARATOR.getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
