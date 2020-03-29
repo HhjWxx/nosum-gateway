@@ -16,7 +16,7 @@ public class SlotProcessHandler extends SimpleChannelInboundHandler<Context> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Context context) throws Exception {
-        // TODO 进行过滤链的执行，应该使用扩展点实现获取
+        // 构造过滤器链
         ProcessorSlot<Context> chain = SlotChainProvider.newSlotChain();
         try {
             chain.exec(context);

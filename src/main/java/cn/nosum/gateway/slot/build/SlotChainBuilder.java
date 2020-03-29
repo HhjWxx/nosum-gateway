@@ -7,7 +7,7 @@ import cn.nosum.gateway.slot.ProcessorSlotChain;
 /**
  * 处理槽构建器顶层接口
  */
-@SPI("default")
+@SPI("context")
 public interface SlotChainBuilder {
 
     /**

@@ -3,7 +3,7 @@ package cn.nosum.gateway.slot;
 import cn.nosum.common.annotation.SPI;
 import cn.nosum.common.http.entity.Context;
 
-@SPI
+@SPI("link")
 public interface ProcessorSlotChain extends ProcessorSlot<Context> {
 
     /**
