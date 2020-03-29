@@ -7,13 +7,10 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 @Adaptive
 public class ContextHandlerBuilder implements HandlerBuilder{
-    private Logger logger= LoggerFactory.getLogger(this.getClass());
     private static ChannelInitializer<SocketChannel> channelInitializer=null;
     @Override
     public ChannelInitializer<SocketChannel> build() {
@@ -28,7 +25,7 @@ public class ContextHandlerBuilder implements HandlerBuilder{
                     client.pipeline().addLast(new FullHttpRequestHandler());
                     client.pipeline().addLast(new SlotProcessHandler());
                     // TODO 根据激活扩展点优化
-                    client.pipeline().addLast(new PreProcessHandler());
+                    client.pipeline().addLast(new FileProcessHandler());
                     client.pipeline().addLast(new FinalProcessHandler());
                 }
             };

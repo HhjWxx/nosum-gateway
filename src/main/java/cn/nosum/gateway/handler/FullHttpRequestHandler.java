@@ -6,6 +6,7 @@ import cn.nosum.common.http.factory.ContextFactory;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.util.ReferenceCountUtil;
 
 public class FullHttpRequestHandler  extends SimpleChannelInboundHandler<FullHttpRequest> {
 
@@ -14,6 +15,7 @@ public class FullHttpRequestHandler  extends SimpleChannelInboundHandler<FullHtt
         // 构建上下文对象
         Context context= ContextFactory.build(ctx,req);
         ctx.fireChannelRead(context);
+        ReferenceCountUtil.release(req);
     }
 
     @Override

@@ -3,7 +3,6 @@ package cn.nosum.gateway.slot.build;
 import cn.nosum.common.annotation.Adaptive;
 import cn.nosum.common.extension.ExtensionLoader;
 import cn.nosum.gateway.slot.ProcessorSlotChain;
-import cn.nosum.gateway.slot.chain.FileProcessorSlotChain;
 import cn.nosum.gateway.slot.chain.LogProcessorSlotChain;
 import cn.nosum.gateway.slot.chain.UrlProcessorSlotChain;
 
@@ -13,7 +12,6 @@ public class LinkSlotChainBuilder implements SlotChainBuilder {
     {
          chain.addLast(new UrlProcessorSlotChain());
          chain.addLast(new LogProcessorSlotChain());
-         chain.addLast(new FileProcessorSlotChain());
     }
 
     @Override

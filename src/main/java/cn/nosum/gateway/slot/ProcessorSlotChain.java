@@ -11,12 +11,12 @@ public interface ProcessorSlotChain extends ProcessorSlot<Context> {
      *
      * @param protocolProcessor processor to be added.
      */
-    public abstract void addFirst(AbstractLinkedProcessorSlot<Context> protocolProcessor);
+    void addFirst(AbstractLinkedProcessorSlot<Context> protocolProcessor);
 
     /**
      * Add a processor to the tail of this slot chain.
      *
      * @param protocolProcessor processor to be added.
      */
-    public abstract void addLast(AbstractLinkedProcessorSlot<Context> protocolProcessor);
+    void addLast(AbstractLinkedProcessorSlot<Context> protocolProcessor);
 }
