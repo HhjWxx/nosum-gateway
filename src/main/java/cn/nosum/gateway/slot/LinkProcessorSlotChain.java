@@ -1,8 +1,11 @@
 package cn.nosum.gateway.slot;
 
+import cn.nosum.common.annotation.Adaptive;
 import cn.nosum.common.http.entity.Context;
 
-public class DefaultProcessorSlotChain extends ProcessorSlotChain {
+
+@Adaptive
+public class LinkProcessorSlotChain implements ProcessorSlotChain {
 
     AbstractLinkedProcessorSlot<Context> first = new AbstractLinkedProcessorSlot<Context>() {
         @Override

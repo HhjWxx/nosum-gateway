@@ -4,7 +4,7 @@ import cn.nosum.common.http.entity.Context;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-public class PreProcessHandler extends SimpleChannelInboundHandler<Context>{
+public class PreProcessHandler extends SimpleChannelInboundHandler<Context> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Context context) throws Exception {

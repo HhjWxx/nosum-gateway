@@ -1,8 +1,10 @@
 package cn.nosum.gateway.slot;
 
+import cn.nosum.common.annotation.SPI;
 import cn.nosum.common.http.entity.Context;
 
-public abstract class ProcessorSlotChain extends AbstractLinkedProcessorSlot<Context> {
+@SPI
+public interface ProcessorSlotChain extends ProcessorSlot<Context> {
 
     /**
      * Add a processor to the head of this slot chain.

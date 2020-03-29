@@ -35,9 +35,7 @@ public class ExtensionLoader<T> {
     private static final ConcurrentMap<Class<?>, ExtensionLoader<?>> EXTENSION_LOADERS = new ConcurrentHashMap<>();
     private static final ConcurrentMap<Class<?>, Object> EXTENSION_INSTANCES = new ConcurrentHashMap<>();
     private final Holder<Map<String, Class<?>>> cachedClasses = new Holder<>();
-    private final ConcurrentMap<Class<?>, String> cachedNames = new ConcurrentHashMap<>();
     private final Holder<Object> cachedAdaptiveInstance = new Holder<>();
-    private final Map<String, Object> cachedActivates = new ConcurrentHashMap<>();
     private final ConcurrentMap<String, Holder<Object>> cachedInstances = new ConcurrentHashMap<>();
     private Set<Class<?>> cachedWrapperClasses;
 
@@ -332,15 +330,6 @@ public class ExtensionLoader<T> {
         }
     }
 
-    /**
-     * cache name
-     */
-    private void cacheName(Class<?> clazz, String name) {
-        if (!cachedNames.containsKey(clazz)) {
-            cachedNames.put(clazz, name);
-        }
-    }
-
     private void loadClass(Map<String, Class<?>> extensionClasses, java.net.URL resourceURL, Class<?> clazz, String name) throws NoSuchMethodException {
         if (!type.isAssignableFrom(clazz)) {
             throw new IllegalStateException("Error occurred when loading extension class (interface: " +
@@ -351,56 +340,6 @@ public class ExtensionLoader<T> {
             cacheAdaptiveClass(clazz);
         } else if (isWrapperClass(clazz)) {
             cacheWrapperClass(clazz);
-        } else {
-            clazz.getConstructor();
-            if (StringUtils.isEmpty(name)) {
-                name = findAnnotationName(clazz);
-                if (name.length() == 0) {
-                    throw new IllegalStateException("No such extension name for the class " + clazz.getName() + " in the config " + resourceURL);
-                }
-            }
-
-            String[] names = NAME_SEPARATOR.split(name);
-            if (ArrayUtils.isNotEmpty(names)) {
-                cacheActivateClass(clazz, names[0]);
-                for (String n : names) {
-                    cacheName(clazz, n);
-                    saveInExtensionClass(extensionClasses, clazz, n);
-                }
-            }
-        }
-    }
-
-    private void saveInExtensionClass(Map<String, Class<?>> extensionClasses, Class<?> clazz, String name) {
-        Class<?> c = extensionClasses.get(name);
-        if (c == null) {
-            extensionClasses.put(name, clazz);
-        } else if (c != clazz) {
-            throw new IllegalStateException("Duplicate extension " + type.getName() + " name " + name + " on " + c.getName() + " and " + clazz.getName());
-        }
-    }
-    @SuppressWarnings("deprecation")
-    private String findAnnotationName(Class<?> clazz) {
-        cn.nosum.common.annotation.Extension extension = clazz.getAnnotation(cn.nosum.common.annotation.Extension.class);
-        if (extension == null) {
-            String name = clazz.getSimpleName();
-            if (name.endsWith(type.getSimpleName())) {
-                name = name.substring(0, name.length() - type.getSimpleName().length());
-            }
-            return name.toLowerCase();
-        }
-        return extension.value();
-    }
-
-    private void cacheActivateClass(Class<?> clazz, String name) {
-        Activate activate = clazz.getAnnotation(Activate.class);
-        if (activate != null) {
-            cachedActivates.put(name, activate);
-        } else {
-            cn.nosum.common.annotation.Activate oldActivate = clazz.getAnnotation( cn.nosum.common.annotation.Activate.class);
-            if (oldActivate != null) {
-                cachedActivates.put(name, oldActivate);
-            }
         }
     }
 

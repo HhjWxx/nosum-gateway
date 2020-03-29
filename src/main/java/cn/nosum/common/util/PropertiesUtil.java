@@ -4,10 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 public class PropertiesUtil {
 	private final static Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
@@ -34,8 +33,10 @@ public class PropertiesUtil {
 			properties.load(inputStream);
 			Set<Map.Entry<Object, Object>> entrySet = properties.entrySet();
 			for (Map.Entry<Object, Object> entry : entrySet) {
+				String entryKey=entry.getKey().toString().trim();
+				String value=entry.getValue().toString().trim();
 				if (!entry.getKey().toString().startsWith("#")) {
-					propertiesMap.put(((String) entry.getKey()).trim(), ((String) entry.getValue()).trim());
+					propertiesMap.put(entryKey, value);
 				}
 			}
 		} catch (IOException e) {
@@ -55,5 +56,14 @@ public class PropertiesUtil {
 
 	public static String getProperty(String name){
 		return propertiesMap.get(name);
+	}
+	public static List<String> getArraysProperty(String name){
+		List<String> values=new ArrayList<>();
+		for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
+			if (entry.getKey().startsWith(name)) {
+				values.add(entry.getValue());
+			}
+		}
+		return values;
 	}
 }
