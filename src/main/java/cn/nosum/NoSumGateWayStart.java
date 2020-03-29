@@ -1,7 +1,7 @@
 package cn.nosum;
 
 import cn.nosum.common.extension.ExtensionLoader;
-import cn.nosum.gateway.container.spi.GateWayContainer;
+import cn.nosum.gateway.container.GateWayContainer;
 
 public class NoSumGateWayStart {
     public static void main(String[] args) {

@@ -1,9 +1,9 @@
-package cn.nosum.gateway.slot;
+package cn.nosum.gateway.slot.impl;
 
 import cn.nosum.common.http.entity.Context;
 import cn.nosum.common.util.LinuxCmd;
 import cn.nosum.common.util.NettyFileUtil;
-import cn.nosum.gateway.chain.AbstractLinkedProcessorSlot;
+import cn.nosum.gateway.slot.AbstractLinkedProcessorSlot;
 import com.alibaba.fastjson.JSON;
 
 /**

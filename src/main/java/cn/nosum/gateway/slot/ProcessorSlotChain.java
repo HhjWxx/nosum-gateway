@@ -1,4 +1,4 @@
-package cn.nosum.gateway.chain;
+package cn.nosum.gateway.slot;
 
 import cn.nosum.common.http.entity.Context;
 

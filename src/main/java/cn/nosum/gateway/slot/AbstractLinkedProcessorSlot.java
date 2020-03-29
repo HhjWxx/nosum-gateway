@@ -1,4 +1,5 @@
-package cn.nosum.gateway.chain;
+package cn.nosum.gateway.slot;
+
 
 public abstract class AbstractLinkedProcessorSlot<T> implements ProcessorSlot<T> {
 

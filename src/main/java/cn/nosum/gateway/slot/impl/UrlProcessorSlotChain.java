@@ -1,7 +1,7 @@
-package cn.nosum.gateway.slot;
+package cn.nosum.gateway.slot.impl;
 
 import cn.nosum.common.exception.ExcludeException;
-import cn.nosum.gateway.chain.AbstractLinkedProcessorSlot;
+import cn.nosum.gateway.slot.AbstractLinkedProcessorSlot;
 import cn.nosum.common.constant.Constants;
 import cn.nosum.common.http.entity.Context;
 

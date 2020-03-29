@@ -11,6 +11,7 @@ public class LinuxCmd {
     public static Logger logger= LoggerFactory.getLogger(LinuxCmd.class);
 
     public static String executeLinuxCmd(String cmd) {
+        if (!isLinux()){return null;}
         logger.debug("执行命令:{}",cmd);
         Runtime run = Runtime.getRuntime();
         try {
@@ -32,5 +33,9 @@ public class LinuxCmd {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean isLinux() {
+        return System.getProperty("os.name").toLowerCase().contains("linux");
     }
 }

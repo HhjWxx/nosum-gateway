@@ -1,9 +1,11 @@
 package cn.nosum.common.extension.factory;
 
+import cn.nosum.common.annotation.Adaptive;
 import cn.nosum.common.annotation.SPI;
 import cn.nosum.common.extension.ExtensionFactory;
 import cn.nosum.common.extension.ExtensionLoader;
 
+@Adaptive
 public class SpiExtensionFactory implements ExtensionFactory {
 
     @Override

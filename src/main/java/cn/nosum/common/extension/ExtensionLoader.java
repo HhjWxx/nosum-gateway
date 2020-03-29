@@ -246,20 +246,25 @@ public class ExtensionLoader<T> {
      * 如果存在默认扩展名，提取并且缓存
      */
     private void cacheDefaultExtensionName() {
-        final SPI defaultAnnotation = type.getAnnotation(SPI.class);
-        if (defaultAnnotation != null) {
-            String value = defaultAnnotation.value();
-            if ((value = value.trim()).length() > 0) {
-                String[] names = NAME_SEPARATOR.split(value);
-                if (names.length > 1) {
-                    throw new IllegalStateException("More than 1 default extension name on extension "
-                            + type.getName() + ": "
-                            + Arrays.toString(names));
-                }
-                if (names.length == 1) {
-                    cachedDefaultName = names[0];
+        String value;
+        if (StringUtils.isEmpty(value=PropertiesUtil.getProperty(type.getName()))){
+            final SPI defaultAnnotation = type.getAnnotation(SPI.class);
+            if (defaultAnnotation != null) {
+                value = defaultAnnotation.value();
+                if ((value = value.trim()).length() > 0) {
+                    String[] names = NAME_SEPARATOR.split(value);
+                    if (names.length > 1) {
+                        throw new IllegalStateException("More than 1 default extension name on extension "
+                                + type.getName() + ": "
+                                + Arrays.toString(names));
+                    }
+                    if (names.length == 1) {
+                        cachedDefaultName = names[0];
+                    }
                 }
             }
+        }else{
+            cachedDefaultName=value;
         }
     }
 

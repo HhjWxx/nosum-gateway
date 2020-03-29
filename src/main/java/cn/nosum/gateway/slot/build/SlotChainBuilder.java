@@ -1,9 +1,13 @@
-package cn.nosum.gateway.chain;
+package cn.nosum.gateway.slot.build;
 
+
+import cn.nosum.common.annotation.SPI;
+import cn.nosum.gateway.slot.ProcessorSlotChain;
 
 /**
  * 处理槽构建器顶层接口
  */
+@SPI("link")
 public interface SlotChainBuilder {
 
     /**

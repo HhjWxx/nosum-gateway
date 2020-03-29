@@ -1,4 +1,4 @@
-package cn.nosum.gateway.container.spi;
+package cn.nosum.gateway.container;
 
 
 import cn.nosum.common.annotation.SPI;

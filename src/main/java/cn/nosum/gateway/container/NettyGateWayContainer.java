@@ -1,7 +1,8 @@
 package cn.nosum.gateway.container;
 
 import cn.nosum.common.annotation.Adaptive;
-import cn.nosum.gateway.container.spi.GateWayContainer;
+import cn.nosum.common.util.Convert;
+import cn.nosum.common.util.PropertiesUtil;
 import cn.nosum.gateway.handler.FinalProcessHandler;
 import cn.nosum.gateway.handler.FullHttpRequestHandler;
 import cn.nosum.gateway.handler.PreProcessHandler;
@@ -21,7 +22,7 @@ import org.slf4j.LoggerFactory;
 @Adaptive
 public class NettyGateWayContainer implements GateWayContainer {
 	Logger logger= LoggerFactory.getLogger(NettyGateWayContainer.class);
-	private int port = 8888;
+	private int port = Convert.toInt(PropertiesUtil.getProperty("container.port"));
 	public void start(){
 		// Boss线程
 		EventLoopGroup bossGroup = new NioEventLoopGroup();

@@ -1,5 +1,9 @@
-package cn.nosum.gateway.chain;
+package cn.nosum.gateway.slot;
 
+
+import cn.nosum.common.extension.ExtensionLoader;
+import cn.nosum.gateway.slot.build.DefaultSlotChainBuilder;
+import cn.nosum.gateway.slot.build.SlotChainBuilder;
 
 public final class SlotChainProvider {
     private SlotChainProvider() {}
@@ -9,9 +13,8 @@ public final class SlotChainProvider {
         if (builder != null) {
             return builder.build();
         }
-        // TODO 使用 SPI 与静态扩展点优化
         if (builder == null) {
-            builder = new DefaultSlotChainBuilder();
+            builder = ExtensionLoader.getExtensionLoader(SlotChainBuilder.class).getAdaptiveExtension();
         }
         return builder.build();
     }
