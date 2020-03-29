@@ -20,12 +20,9 @@ public class SlotProcessHandler extends SimpleChannelInboundHandler<Context> {
         ProcessorSlot<Context> chain = SlotChainProvider.newSlotChain();
         try {
             chain.exec(context);
-            // 传递上下文对象到下一个 handler
-            ctx.fireChannelRead(context);
         } catch (ExcludeException e) {
             context.getResponse().write(ResultInfo.valueOf(ResultEnum.URL_EXCLUDE));
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
             context.getResponse().write(ResultInfo.valueOf(ResultEnum.FAILING));
         }
     }

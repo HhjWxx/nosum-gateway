@@ -18,15 +18,11 @@ public class ContextHandlerBuilder implements HandlerBuilder{
             channelInitializer = new ChannelInitializer<SocketChannel>() {
                 // 客户端初始化处理
                 protected void initChannel(SocketChannel client) throws Exception {
-                    // Netty对HTTP协议的封装，顺序有要求
                     client.pipeline().addLast(new HttpRequestDecoder());
-                    client.pipeline().addLast(new HttpObjectAggregator(65535));//将多个消息转化成一个
+                    client.pipeline().addLast(new HttpObjectAggregator(65535));
                     client.pipeline().addLast(new HttpResponseEncoder());
                     client.pipeline().addLast(new FullHttpRequestHandler());
                     client.pipeline().addLast(new SlotProcessHandler());
-                    // TODO 根据激活扩展点优化
-                    client.pipeline().addLast(new FileProcessHandler());
-                    client.pipeline().addLast(new FinalProcessHandler());
                 }
             };
         }

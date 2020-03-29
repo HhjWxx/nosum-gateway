@@ -1,11 +1,8 @@
 package cn.nosum.common.http.entity;
 
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
-import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
@@ -31,7 +28,7 @@ public class Request {
     private void initParam(FullHttpRequest req){
         try{
             HttpMethod method = req.method();
-            paramMap=new HashMap<>();
+            paramMap = new HashMap<>();
             if (HttpMethod.GET == method) {
                 // GET请求
                 QueryStringDecoder decoder = new QueryStringDecoder(req.uri());

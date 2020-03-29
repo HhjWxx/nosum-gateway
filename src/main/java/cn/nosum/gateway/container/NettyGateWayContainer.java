@@ -5,6 +5,7 @@ import cn.nosum.common.util.Convert;
 import cn.nosum.common.util.PropertiesUtil;
 import cn.nosum.gateway.handler.build.HandlerProvider;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -14,34 +15,34 @@ import org.slf4j.LoggerFactory;
 
 @Adaptive
 public class NettyGateWayContainer implements GateWayContainer {
-	Logger logger= LoggerFactory.getLogger(NettyGateWayContainer.class);
-	private int port = Convert.toInt(PropertiesUtil.getProperty("container.port"));
-	public void start(){
-		// Boss线程
-		EventLoopGroup bossGroup = new NioEventLoopGroup();
-		// Worker线程
-		EventLoopGroup workerGroup = new NioEventLoopGroup();
-		try {
-			ServerBootstrap server = new ServerBootstrap();
-			server.group(bossGroup, workerGroup)
-					.channel(NioServerSocketChannel.class)
-					// 子线程处理类 , Handler
-					.childHandler(HandlerProvider.newHandlerChannel())
-					// 针对主线程的配置 分配线程最大数量 128
-					.option(ChannelOption.SO_BACKLOG, 128)
-					// 针对子线程的配置 保持长连接
-					.childOption(ChannelOption.SO_KEEPALIVE, true);
+    Logger logger = LoggerFactory.getLogger(NettyGateWayContainer.class);
+    private int port = Convert.toInt(PropertiesUtil.getProperty("container.port"));
 
-			// 启动服务器
-			ChannelFuture f = server.bind(port).sync();
-			logger.debug("NettyGateWayContainer启动成功,访问端口号是：{}",port);
-			f.channel().closeFuture().sync();
-		}catch (Exception e){
-			e.printStackTrace();
-		}finally {
-			// 关闭线程池
-			bossGroup.shutdownGracefully();
-			workerGroup.shutdownGracefully();
-		}
-	}
+    public void start() {
+        // Boss线程
+        EventLoopGroup bossGroup = new NioEventLoopGroup(6);
+        // Worker线程
+        EventLoopGroup workerGroup = new NioEventLoopGroup(12);
+        try {
+            ServerBootstrap server = new ServerBootstrap();
+            server.group(bossGroup, workerGroup);
+            server.channel(NioServerSocketChannel.class);
+            server.childHandler(HandlerProvider.newHandlerChannel());
+            server.option(ChannelOption.SO_BACKLOG, 128);
+            server.option(ChannelOption.TCP_NODELAY,true);
+            server.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+            server.childOption(ChannelOption.TCP_NODELAY, true);
+            // server.childOption(ChannelOption.SO_KEEPALIVE, true);
+            // 启动服务器
+            ChannelFuture f = server.bind(port).sync();
+            logger.debug("NettyGateWayContainer启动成功,访问端口号是：{}", port);
+            f.channel().closeFuture().sync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭线程池
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
+        }
+    }
 }

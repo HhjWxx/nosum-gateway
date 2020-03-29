@@ -29,7 +29,7 @@ public class NettyFileUtil {
         }
         try (FileOutputStream fileOutputStream = new FileOutputStream(file,append);
              FileChannel fileChannel = fileOutputStream.getChannel()) {
-            ByteBuffer byteBuffer = ByteBuffer.allocate(BYTE_BUFFER_LENGTH+LINE_SEPARATOR.length());
+            ByteBuffer byteBuffer = ByteBuffer.allocate(getLength(data.length())+LINE_SEPARATOR.length());
             int i = 0;
             int length = data.getBytes().length;
             // 一次性读取完毕
@@ -105,5 +105,9 @@ public class NettyFileUtil {
         } catch (Exception e) {
             logger.error("文件复制错误，错误原因 ：{0}", e);
         }
+    }
+
+    public static int getLength(Integer length){
+        return BYTE_BUFFER_LENGTH>length?length:BYTE_BUFFER_LENGTH;
     }
 }
