@@ -14,6 +14,7 @@ public class GateWayServletFactory {
     public static IGateWayServlet getGateWayServlet(String method){
         return gateWayServletMap.get(method);
     }
+
     public static void register(String method,IGateWayServlet gateWayServlet){
         gateWayServletMap.put(method,gateWayServlet);
     }

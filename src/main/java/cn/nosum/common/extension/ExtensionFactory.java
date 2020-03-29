@@ -2,7 +2,7 @@ package cn.nosum.common.extension;
 
 import cn.nosum.common.annotation.SPI;
 
-@SPI
+@SPI("adaptive")
 public interface ExtensionFactory {
 
     /**

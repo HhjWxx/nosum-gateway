@@ -8,13 +8,16 @@ import cn.nosum.gateway.slot.chain.LogProcessorSlotChain;
 import cn.nosum.gateway.slot.chain.UrlProcessorSlotChain;
 
 @Adaptive
-public class DefaultSlotChainBuilder implements SlotChainBuilder {
+public class LinkSlotChainBuilder implements SlotChainBuilder {
+    private ProcessorSlotChain chain=ExtensionLoader.getExtensionLoader(ProcessorSlotChain.class).getAdaptiveExtension();
+    {
+         chain.addLast(new UrlProcessorSlotChain());
+         chain.addLast(new LogProcessorSlotChain());
+         chain.addLast(new FileProcessorSlotChain());
+    }
+
     @Override
     public ProcessorSlotChain build() {
-        ProcessorSlotChain chain = ExtensionLoader.getExtensionLoader(ProcessorSlotChain.class).getAdaptiveExtension();
-        chain.addLast(new UrlProcessorSlotChain());
-        chain.addLast(new LogProcessorSlotChain());
-        chain.addLast(new FileProcessorSlotChain());
         return chain;
     }
 }

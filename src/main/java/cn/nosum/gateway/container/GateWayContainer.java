@@ -5,5 +5,5 @@ import cn.nosum.common.annotation.SPI;
 
 @SPI("netty")
 public interface GateWayContainer {
-    public void start();
+    void start();
 }

@@ -13,9 +13,9 @@ public class PostGateWayServlet extends AbsGateWayServlet {
 
     @Override
     protected boolean doCheck(Context context) {
-        if (context!=null){
-            return Constants.REQUEST_METHOD_POST.equalsIgnoreCase(context.getRequest().getMethod());
+        if (context==null){
+            return false;
         }
-        return false;
+        return Constants.REQUEST_METHOD_POST.equalsIgnoreCase(context.getRequest().getMethod());
     }
 }

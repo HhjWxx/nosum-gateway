@@ -1,1 +1,1 @@
-default=cn.nosum.gateway.slot.build.DefaultSlotChainBuilder
+context=cn.nosum.gateway.slot.build.LinkSlotChainBuilder

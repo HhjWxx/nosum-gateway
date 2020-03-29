@@ -337,14 +337,15 @@ public class ExtensionLoader<T> {
                     + clazz.getName() + " is not subtype of interface.");
         }
         if (clazz.isAnnotationPresent(Adaptive.class)) {
-            cacheAdaptiveClass(clazz);
+            cacheAdaptiveClass(clazz,name);
         } else if (isWrapperClass(clazz)) {
             cacheWrapperClass(clazz);
         }
     }
 
-    private void cacheAdaptiveClass(Class<?> clazz) {
-        if (cachedAdaptiveClass == null) {
+    private void cacheAdaptiveClass(Class<?> clazz,String name) {
+        // 只有名称匹配时才会进行保存
+        if (cachedAdaptiveClass == null && name.equals(cachedDefaultName)) {
             cachedAdaptiveClass = clazz;
         } else if (!cachedAdaptiveClass.equals(clazz)) {
             throw new IllegalStateException("More than 1 adaptive class found: "
