@@ -34,13 +34,13 @@ sh nosum-gateway.sh logs
 > `github`地址`https`
 
 ```text
-
+https://github.com/HhjWxx/nosum-gateway.git
 ```
 
 > `github`地址`ssh`
 
 ```text
-
+git@github.com:HhjWxx/nosum-gateway.git
 ```
 
 > 个人远程仓库`https`
