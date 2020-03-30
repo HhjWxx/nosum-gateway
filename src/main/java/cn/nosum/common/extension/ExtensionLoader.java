@@ -1,6 +1,5 @@
 package cn.nosum.common.extension;
 
-import cn.nosum.common.annotation.Activate;
 import cn.nosum.common.annotation.Adaptive;
 import cn.nosum.common.annotation.DisableInject;
 import cn.nosum.common.annotation.SPI;
