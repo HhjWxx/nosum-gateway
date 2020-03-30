@@ -27,13 +27,9 @@ status
 ;;
 logs)  
 logs  
-;;       
-restart)  
-stop  
-start  
-;;  
+;;
 *)  
-printf 'Usage: %s {start|stop|restart|status|logs}\n' "$prog"  
+printf 'Usage: %s {start|stop|status|logs}\n' "$prog"
 exit 1  
 ;;  
 esac

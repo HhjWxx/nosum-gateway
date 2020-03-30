@@ -15,9 +15,18 @@ java -jar nosum-gateway-v1-jar-with-dependencies.jar
 ```
 
 > `linux`环境下，将`nosum-gateway-v1-jar-with-dependencies.jar`与`nosum-gateway.sh`上传到同一目录中，进入到文件所在目录，执行如下命令
+>
+> > `nosum-gateway.sh`在项目根目录之中，如果无法执行，可以使用 `chmod`进行授权
 
 ```bash
-sh nosum-gateway.sh
+# 启动
+sh nosum-gateway.sh start
+# 停止
+sh nosum-gateway.sh stop
+# 查看服务信息
+sh nosum-gateway.sh status
+# 查看日志信息
+sh nosum-gateway.sh logs
 ```
 
 ## 下载地址
